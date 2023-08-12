@@ -1,13 +1,43 @@
 import { Fragment, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import classes from "./auth.module.css";
+import axios from "axios";
 const Auth = () => {
   const [state, setState] = useState(false);
   const enteredName = useRef();
   const enteredEmail = useRef();
   const enteredPassword = useRef();
   const enteredPhone = useRef();
-  const submitHandler = () => {};
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const obj = {
+      name: enteredName.current.value,
+      email: enteredEmail.current.value,
+      phone: enteredPhone.current.value,
+      password: enteredPassword.current.value,
+    };
+    const postSignupdata = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/user/signup",
+          obj
+        );
+     
+        // if(response.status===401){
+        //   console.log(response.error.response.data.error)
+        //   throw new Error(response.error.response.data.error)
+        // }
+        // console.log("this is:", response);
+        alert("Signed up Successfully");
+      } catch (err) {
+        console.log(err);
+        // alert(err.response.data.error);
+        alert(err.response.data.error)
+      }
+    };
+    postSignupdata();
+    // console.log(obj);
+  };
   const stateHandler = () => {
     setState((prev) => !prev);
   };

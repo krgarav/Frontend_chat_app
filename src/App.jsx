@@ -1,15 +1,13 @@
+import { Fragment } from "react";
+import "./App.css";
+import Auth from "./Component/Authpage/auth";
 
-import './App.css'
-import Auth from './Component/Authpage/auth'
-
-function App() {
-  
-
+const App = () => {
   return (
-    <>
-    <Auth/>
-    </>
-  )
-}
+    <Fragment>
+      <Auth />
+    </Fragment>
+  );
+};
 
-export default App
+export default App;
