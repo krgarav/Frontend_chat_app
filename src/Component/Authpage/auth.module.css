@@ -1,61 +1,65 @@
 .formBox {
-    background-color: rgb(255, 255, 255);
-    padding: 1rem 1.5rem;
-    border-radius: 10px;
-  }
-  .formBox h3 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: 800;
-  }
-  .toggler {
-    border: 1px solid black;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
-    margin-top: 10px;
-    background-color: rgb(255, 255, 255);
-    
-  }
-  .toggler p {
-    padding: 5px;
-  }
-  .toggler:hover {
-    color: blue;
-    text-decoration: underline;
-  }
-  .parent {
-    display: block;
-    justify-content: center;
-    /* background-image: url("../../../water.jpg"); */
-    background-color: darkslategrey;
-    height: 100vh;
-    width: 100vw;
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    margin: 0;
-    padding: 0;
-  }
-  .childBox{
-    position:fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-   
-  }
-  .forgot {
-    cursor: pointer;
-    width: 100%;
-    margin-left: 40%;
-   
-    font-size: 0.8rem;
-  }
-  .forgot:hover {
-    color: blue;
-    text-decoration: underline;
-  }
-  .submitButton{
-    border-radius: 50px;
-    width: 100%;
-    background-color: aqua;
-  }
+  background-color: rgb(255, 255, 255);
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+}
+.formBox h3 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 800;
+}
+.toggler {
+  border: 1px solid white;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 10px;
+  background-color: rgb(255, 255, 255);
+}
+.toggler p {
+  padding: 5px;
+}
+.toggler:hover {
+  color: blue;
+  text-decoration: underline;
+}
+.parent {
+  display: block;
+  justify-content: center;
+  background-color: darkslategrey;
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+}
+.childBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+}
+.forgot {
+  cursor: pointer;
+  width: 100%;
+  margin-left: 40%;
+  font-size: 0.8rem;
+}
+.forgot:hover {
+  color: blue;
+  text-decoration: underline;
+}
+.submitButton {
+  border-radius: 50px;
+  width: 100%;
+  background-color: aqua;
+}
+.hidebtn {
+  position: relative;
+  /* top: 10px; */
+  right: 10px;
+  bottom: 30px;
+  float: right;
+}
