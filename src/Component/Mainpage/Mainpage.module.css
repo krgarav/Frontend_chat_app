@@ -1,0 +1,14 @@
+.footer{
+    position: sticky;
+    bottom: 0;
+}
+.container{
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+.listbox{
+    width: 60%;
+   margin-left: 20%;
+    /* display: flex; */
+  
+}
