@@ -10,19 +10,37 @@ const Mainpage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const messages = JSON.parse(localStorage.getItem("messages"));
+    const lastMessageId = messages[messages.length - 1].id;
+    // if(messages){
+    //   setMessages(messages);
+    // }
     const getChats = async () => {
-      const response = await axios.get("http://localhost:3000/get-message", {
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      setMessages(response.data.chats);
+      const response = await axios.get(
+        `http://localhost:3000/get-message?lastMessageId=${lastMessageId || 1}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      const arrayData = await response.data.chats;
+      const concatedArray = [...messages, ...arrayData];
+      let slicedArray = [];
+      if (concatedArray.length > 10) {
+        slicedArray = concatedArray.slice(-10);
+      } else {
+        slicedArray = concatedArray;
+      }
+      const stringified = JSON.stringify(slicedArray);
+      localStorage.setItem("messages", stringified);
+      setMessages(slicedArray)
     };
-    setInterval(()=>{
-      getChats()
-    },1000);
+    setInterval(() => {
+      getChats();
+    }, 1000);
   }, []);
+
   const logoutHandler = () => {
     localStorage.clear();
     navigate("/auth", { replace: true });
@@ -39,7 +57,7 @@ const Mainpage = () => {
                 key={index}
                 variant={index % 2 === 0 ? "" : "secondary"}
               >
-                {item.message}
+                 {item.message}
               </ListGroup.Item>
             ))}
           </ListGroup>
