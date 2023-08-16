@@ -16,10 +16,12 @@ const Mainpage = () => {
           Authorization: token,
         },
       });
-      console.log(response.data.chats);
+
       setMessages(response.data.chats);
     };
-    getChats();
+    setInterval(()=>{
+      getChats()
+    },1000);
   }, []);
   const logoutHandler = () => {
     localStorage.clear();
