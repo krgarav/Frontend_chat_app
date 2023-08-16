@@ -42,7 +42,8 @@ const Auth = () => {
           email: enteredEmail.current.value,
           password: enteredPassword.current.value,
         };
-        await axios.post("http://localhost:3000/user/login", obj);
+        const response= await axios.post("http://localhost:3000/user/login", obj);
+        localStorage.setItem("token",response.data.token);
         alert("Logged in Successfully");
         navigate("/chat-app");
 

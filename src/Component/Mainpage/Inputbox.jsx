@@ -1,12 +1,39 @@
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
 import classes from "./Inputbox.module.css";
+import axios from "axios";
 const Inputbox = () => {
+  const chatRef = useRef();
+  const sendHandler = (event) => {
+    event.preventDefault();
+    const enteredMessage = chatRef.current.value;
+    const token = localStorage.getItem("token");
+    const postMessage = async () => {
+      try {
+        await axios.post(
+          "http://localhost:3000/add-message",
+          { message: enteredMessage },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        chatRef.current.value = "";
+      } catch (err) {
+        alert(err);
+        console.log(err);
+      }
+    };
+    postMessage();
+  };
+
   return (
     <Fragment>
-   
       <div className={classes.box1}>
-        <input type="text" />
-        <button>Send</button>
+        <form onSubmit={sendHandler}>
+          <input type="text" ref={chatRef} required />
+          <button type="submit">Send</button>
+        </form>
       </div>
     </Fragment>
   );
