@@ -9,9 +9,11 @@ const Inputbox = () => {
     const token = localStorage.getItem("token");
     const postMessage = async () => {
       try {
+        const groupId = localStorage.getItem("groupId")||null;
+        console.log(groupId);
         await axios.post(
           "http://localhost:3000/add-message",
-          { message: enteredMessage },
+          { message: enteredMessage, groupId: groupId },
           {
             headers: {
               Authorization: token,

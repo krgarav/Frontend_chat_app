@@ -6,7 +6,7 @@ import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 const Auth = () => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(true);
   const [show, setShow] = useState(true);
   const [resolve, setResolve] = useState(false);
   const enteredName = useRef();
