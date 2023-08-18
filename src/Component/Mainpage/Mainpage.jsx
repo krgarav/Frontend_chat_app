@@ -26,7 +26,7 @@ const Mainpage = () => {
       let groupId = localStorage.getItem("groupId") || null;
 
       const response = await axios.get(
-        `http://localhost:3000/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
+        `http://localhost:5000/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
         {
           headers: {
             Authorization: token,
@@ -52,7 +52,7 @@ const Mainpage = () => {
     };
     const getGroups = async () => {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3000/getGroup", {
+      const response = await axios.get("http://localhost:5000/getGroup", {
         headers: {
           Authorization: token,
         },
@@ -85,7 +85,7 @@ const Mainpage = () => {
     const token = localStorage.getItem("token");
     const getReq = async () => {
       const response = await axios.get(
-        "http://localhost:3000/getUsers" + groupId,
+        "http://localhost:5000/getUsers" + groupId,
         {
           headers: {
             Authorization: token,

@@ -68,7 +68,7 @@ const Editgroupmodal = (props) => {
       isAdmin: selectedAdminCheckboxesRef.current,
     };
     console.log(obj);
-    axios.post("http://localhost:3000/updateGroupInfo", obj);
+    axios.post("http://localhost:5000/updateGroupInfo", obj);
     // console.log("Selected Checkboxes:", selectedCheckboxesRef.current);
   };
   const rows = users.map((item) => {
