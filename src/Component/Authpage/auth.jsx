@@ -25,7 +25,7 @@ const Auth = () => {
           phone: enteredPhone.current.value,
           password: enteredPassword.current.value,
         };
-        await axios.post("http://localhost:5000/user/signup", obj);
+        await axios.post("http://43.205.148.73:5000/user/signup", obj);
         alert("Signed up Successfully");
       } catch (err) {
         if (err.response) {
@@ -42,7 +42,7 @@ const Auth = () => {
           email: enteredEmail.current.value,
           password: enteredPassword.current.value,
         };
-        const response= await axios.post("http://localhost:5000/user/login", obj);
+        const response= await axios.post("http://43.205.148.73:5000/user/login", obj);
         localStorage.setItem("token",response.data.token);
         alert("Logged in Successfully");
         navigate("/chat-app");

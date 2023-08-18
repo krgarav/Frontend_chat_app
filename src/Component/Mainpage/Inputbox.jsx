@@ -12,7 +12,7 @@ const Inputbox = () => {
         const groupId = localStorage.getItem("groupId")||null;
         console.log(groupId);
         await axios.post(
-          "http://localhost:5000/add-message",
+          "http://43.205.148.73:5000/add-message",
           { message: enteredMessage, groupId: groupId },
           {
             headers: {
