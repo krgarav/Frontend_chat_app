@@ -12,7 +12,8 @@ const Mainpage = () => {
   const [groupItem, setGroupItem] = useState([]);
   const [usersPresent, setUsersPresent] = useState([]);
   const [show, setShow] = useState(false);
-  const [groupNumberId, setGroupNumberId] = useState(null);
+  const [groupName, setGroupName] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -78,24 +79,29 @@ const Mainpage = () => {
   const newGroupHandler = () => {
     setShow(true);
   };
-  const listGroupHandler = (groupId) => {
+  const listGroupHandler = (item) => {
+    const groupId = item.id;
     localStorage.setItem("groupId", groupId);
+    const token = localStorage.getItem("token");
     const getReq = async () => {
       const response = await axios.get(
-        "http://localhost:3000/getUsers" + groupId
+        "http://localhost:3000/getUsers" + groupId,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
       );
+      // console.log(response.data);
+      setGroupName(item.name);
+      console.log(response.data);
+      setIsAdmin(response.data.isAdminUser);
       setUsersPresent(response.data.allUserIds);
     };
-    const getChats = async () => {
-      const response = await axios.get(
-        "http://localhost:3000/getGroupChats" + groupId
-      );
-    };
+
     getReq();
-    getChats();
     localStorage.removeItem("messages");
     localStorage.setItem("groupId", groupId);
-    setGroupNumberId(groupId);
   };
   const allListItems = messages.map((item, index) => {
     const inputString = item.name;
@@ -113,7 +119,7 @@ const Mainpage = () => {
         action
         variant="info"
         onClick={() => {
-          listGroupHandler(item.id);
+          listGroupHandler(item);
         }}
       >
         {item.name}
@@ -134,7 +140,6 @@ const Mainpage = () => {
               onClick={() => {
                 localStorage.removeItem("groupId");
                 localStorage.removeItem("messages");
-                setGroupNumberId(null);
               }}
             >
               All Messages
@@ -143,7 +148,11 @@ const Mainpage = () => {
           </ListGroup>
         </div>
         <div className={classes.listbox}>
-          <Headelement userArray={usersPresent} />
+          <Headelement
+            userArray={usersPresent}
+            state={isAdmin}
+            groupName={groupName}
+          />
           <ListGroup>{allListItems}</ListGroup>
         </div>
         {show && (
