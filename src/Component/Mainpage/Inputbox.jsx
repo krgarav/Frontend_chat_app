@@ -1,7 +1,7 @@
 import { Fragment, useRef } from "react";
 import classes from "./Inputbox.module.css";
 import axios from "axios";
-const Inputbox = () => {
+const Inputbox = (props) => {
   const chatRef = useRef();
   const sendHandler = (event) => {
     event.preventDefault();
@@ -11,8 +11,8 @@ const Inputbox = () => {
       try {
         const groupId = localStorage.getItem("groupId")||null;
         console.log(groupId);
-        await axios.post(
-          "http://43.205.148.73:5000/add-message",
+      const response=  await axios.post(
+          "http://localhost:5000/add-message",
           { message: enteredMessage, groupId: groupId },
           {
             headers: {
@@ -21,9 +21,11 @@ const Inputbox = () => {
           }
         );
         chatRef.current.value = "";
+        // console.log(response.data.data)
+        props.sendToParent(response.data.data)
       } catch (err) {
         alert(err);
-        console.log(err);
+        
       }
     };
     postMessage();

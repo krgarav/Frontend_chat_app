@@ -9,6 +9,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const Editgroupmodal = (props) => {
   const [show, setShow] = useState([]);
@@ -32,13 +33,12 @@ const Editgroupmodal = (props) => {
         ...selectedCheckboxesRef.current,
         userId,
       ];
-      // console.log(selectedCheckboxesRef.current);
+
       setShow1(selectedCheckboxesRef.current);
     } else {
       selectedCheckboxesRef.current = selectedCheckboxesRef.current.filter(
         (id) => id !== userId
       );
-      // console.log(selectedCheckboxesRef.current);
       setShow1(selectedCheckboxesRef.current);
     }
   };
@@ -49,11 +49,11 @@ const Editgroupmodal = (props) => {
         ...selectedAdminCheckboxesRef.current,
         userId,
       ];
-      setShow(selectedAdminCheckboxesRef.current)
+      setShow(selectedAdminCheckboxesRef.current);
     } else {
       selectedAdminCheckboxesRef.current =
         selectedAdminCheckboxesRef.current.filter((id) => id !== userId);
-        setShow(selectedAdminCheckboxesRef.current)
+      setShow(selectedAdminCheckboxesRef.current);
     }
   };
   const submitHandler = (event) => {
@@ -67,15 +67,16 @@ const Editgroupmodal = (props) => {
       users: selectedCheckboxesRef.current,
       isAdmin: selectedAdminCheckboxesRef.current,
     };
-    console.log(obj);
-    axios.post("http://43.205.148.73:5000/updateGroupInfo", obj);
-    // console.log("Selected Checkboxes:", selectedCheckboxesRef.current);
+    axios.post("http://localhost:5000/updateGroupInfo", obj);
+  };
+  const deleteGroupHandler = () => {
+    alert("are you sure you want to delete this group?");
+    console.log("DELETE GROUP");
   };
   const rows = users.map((item) => {
     const style = item.isAdmin ? true : false;
     const style2 = show1.filter((obj) => obj === item.id);
-    const style3=show.filter((obj) => obj === item.id);
-    // console.log(style2);
+    const style3 = show.filter((obj) => obj === item.id);
     return (
       <Row key={item.id}>
         <Col lg={6}>
@@ -86,7 +87,7 @@ const Editgroupmodal = (props) => {
             type="checkbox"
             label="remove user"
             onChange={(event) => handleCheckboxChange(event, item.id)}
-            disabled={style || style3.length>0}
+            disabled={style || style3.length > 0}
           />
         </Col>
         <Col lg={3}>
@@ -94,7 +95,7 @@ const Editgroupmodal = (props) => {
             type="checkbox"
             label="make admin"
             onChange={(event) => handleAdminCheckboxChange(event, item.id)}
-            disabled={style || style2.length>0}
+            disabled={style || style2.length > 0}
           />
         </Col>
       </Row>
@@ -127,11 +128,14 @@ const Editgroupmodal = (props) => {
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={props.handleClose}>
+            {/* <Button variant="secondary" onClick={props.handleClose}>
               Close
-            </Button>
+            </Button> */}
             <Button variant="primary" type="submit">
               Edit Group
+            </Button>
+            <Button variant="danger" onClick={deleteGroupHandler}>
+              Delete Group
             </Button>
           </Modal.Footer>
         </Form>
@@ -139,5 +143,8 @@ const Editgroupmodal = (props) => {
     </Fragment>
   );
 };
-
+Editgroupmodal.propTypes = {
+  groupName: PropTypes.string.isRequired, // Define the groupName prop
+  // Define other props here
+};
 export default Editgroupmodal;
