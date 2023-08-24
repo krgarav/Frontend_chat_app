@@ -27,6 +27,7 @@ const Auth = () => {
         };
         await axios.post("http://localhost:5000/user/signup", obj);
         alert("Signed up Successfully");
+        setState(true);
       } catch (err) {
         if (err.response) {
           alert(err.response.data.error);
@@ -38,16 +39,20 @@ const Auth = () => {
     };
     const postLogin = async () => {
       try {
+        setResolve(true);
         const obj = {
           email: enteredEmail.current.value,
           password: enteredPassword.current.value,
         };
-        const response= await axios.post("http://localhost:5000/user/login", obj);
-        localStorage.setItem("token",response.data.token);
-        localStorage.setItem("userId",response.data.userId);
+        const response = await axios.post(
+          "http://localhost:5000/user/login",
+          obj
+        );
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("userName", response.data.userName);
         alert("Logged in Successfully");
         navigate("/chat-app");
-
       } catch (err) {
         if (err.response) {
           alert(err.response.data.error);
@@ -55,6 +60,7 @@ const Auth = () => {
           alert(err);
         }
       }
+      setResolve(false);
     };
     if (!state) {
       postSignupdata();

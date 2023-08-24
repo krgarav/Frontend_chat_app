@@ -1,7 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import classes from "./Inputbox.module.css";
+import PropTypes from 'prop-types';
 import axios from "axios";
-import ReactPlayer from "react-player";
 const Inputbox = (props) => {
   const [slectedFile, setSelectedFile] = useState(null);
   const chatRef = useRef(null);
@@ -36,7 +36,6 @@ const Inputbox = (props) => {
             },
           }
         );
-        // chatRef.current.value = "";
         props.sendToParent(response.data.data);
         setSelectedFile(null);
         if (fileInputRef.current) {
@@ -60,8 +59,12 @@ const Inputbox = (props) => {
     <Fragment>
       <div className={classes.box1}>
         <form onSubmit={sendHandler}>
-          <div>{/* <label htmlFor="fileInput">Select File: </label> */}</div>
-          <input type="text" ref={chatRef} required />
+          <input
+            placeholder="Enter Message"
+            type="text"
+            ref={chatRef}
+            required
+          />
           <button type="submit">Send</button>
           <input
             type="file"
@@ -70,13 +73,6 @@ const Inputbox = (props) => {
             onChange={handleFileChange}
             style={{ color: "white" }}
           />
-          {/* <img src="https://expensetracker1213.s3.amazonaws.com/IMG_20221013_200714%20copy-removebg-preview.jpg" width={200} height={200}/> */}
-
-          {/* <video controls width="640" height="360">
-            <source  src="https://expensetracker1213.s3.ap-south-1.amazonaws.com/001+Module+Introduction.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video> */}
-          {/* <ReactPlayer url="https://expensetracker1213.s3.ap-south-1.amazonaws.com/001+Module+Introduction.mp4" controls={true} width="640px" height="360px" /> */}
         </form>
       </div>
     </Fragment>
@@ -84,3 +80,7 @@ const Inputbox = (props) => {
 };
 
 export default Inputbox;
+Inputbox.propTypes = {
+  sendToParent: PropTypes.func.isRequired,
+  
+};

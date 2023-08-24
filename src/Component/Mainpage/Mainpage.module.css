@@ -3,28 +3,24 @@
   bottom: 0;
 }
 .container {
-  min-height: 73.6vh;
+  min-height: 87vh;
   /* padding-bottom: 50px; */
   display: flex;
 }
 .container1 {
-  width: 20%;
+  width: 30%;
   border: 2px solid grey;
-  max-height: 500px; 
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  /* max-height: 00px;  */
 }
 .listbox {
   width: 80%;
   /* margin-left: 20%; */
 }
 .scrollableList {
-  max-height: 400px; 
+  max-height: 470px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
- 
 }
 .scrollableList::-webkit-scrollbar {
   width: 6px;

@@ -1,6 +1,8 @@
 import { Fragment, useState } from "react";
 import { Container, Navbar, Button } from "react-bootstrap";
 import Editgroupmodal from "../Models/Editgroupmodal";
+import PropTypes from "prop-types";
+
 import _ from "lodash";
 const Headelement = (props) => {
   const [show, setShow] = useState(false);
@@ -17,8 +19,10 @@ const Headelement = (props) => {
     <Fragment>
       <Navbar className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand><h3>{props.groupName}</h3></Navbar.Brand>
-          <Navbar.Text>{usersName}</Navbar.Text>
+          <Navbar.Brand>
+            <h3>{props.groupName}</h3>
+          </Navbar.Brand>
+          <Navbar.Text> {usersName}</Navbar.Text>
           <Button onClick={editHandler} disabled={!props.state}>
             Edit
           </Button>
@@ -38,3 +42,8 @@ const Headelement = (props) => {
   );
 };
 export default Headelement;
+Headelement.propTypes = {
+  userArray: PropTypes.array,
+  groupName: PropTypes.string,
+  state: PropTypes.bool,
+};

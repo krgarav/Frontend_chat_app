@@ -56,7 +56,7 @@ const Editgroupmodal = (props) => {
       setShow(selectedAdminCheckboxesRef.current);
     }
   };
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     // const token = localStorage.getItem("token");
     const groupId = localStorage.getItem("groupId");
@@ -67,7 +67,9 @@ const Editgroupmodal = (props) => {
       users: selectedCheckboxesRef.current,
       isAdmin: selectedAdminCheckboxesRef.current,
     };
-    axios.post("http://localhost:5000/updateGroupInfo", obj);
+    await axios.post("http://localhost:5000/updateGroupInfo", obj);
+    alert("updated details")
+    props.handleClose()
   };
   const deleteGroupHandler = () => {
     alert("are you sure you want to delete this group?");
@@ -143,8 +145,11 @@ const Editgroupmodal = (props) => {
     </Fragment>
   );
 };
-Editgroupmodal.propTypes = {
-  groupName: PropTypes.string.isRequired, // Define the groupName prop
-  // Define other props here
-};
+
 export default Editgroupmodal;
+Editgroupmodal.propTypes = {
+  groupName: PropTypes.string,
+  show: PropTypes.bool,
+  handleClose: PropTypes.func,
+  users: PropTypes.array,
+};

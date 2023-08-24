@@ -1,30 +1,25 @@
 import { Fragment, useEffect, useState } from "react";
 import Inputbox from "./Inputbox";
 import classes from "./Mainpage.module.css";
-import { ListGroup } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Col, Container, ListGroup, Row } from "react-bootstrap";
 import axios from "axios";
 import _ from "lodash";
 import io from "socket.io-client";
-import Invitemodal from "../Models/Invitemodal";
 import Headelement from "../Headelement/Headelement";
-
+import Mainheaderelement from "../Headelement/Mainheadelement";
+import { HiUserGroup } from "react-icons/hi";
+import CloseButton from "react-bootstrap/CloseButton";
 const ENDPOINT = "http://localhost:5000";
 var socket;
 const Mainpage = () => {
   const [messages, setMessages] = useState([]);
   const [groupItem, setGroupItem] = useState([]);
   const [usersPresent, setUsersPresent] = useState([]);
-  const [show, setShow] = useState(false);
   const [groupName, setGroupName] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [socketConnection, setSocketConnection] = useState(false);
-  const [stateHandler, setStateHAndler] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     socket = io(ENDPOINT);
-
     getChats();
     getGroups();
     return () => {
@@ -35,7 +30,6 @@ const Mainpage = () => {
   useEffect(() => {
     socket.on("message received", (obj) => {
       const currentGroupId = localStorage.getItem("groupId") || null;
-
       const newReceivedMessage = obj.message;
       const groupId = obj.groupId;
       if (currentGroupId === groupId) {
@@ -47,6 +41,22 @@ const Mainpage = () => {
 
     return () => {
       socket.off("message received");
+    };
+  });
+  useEffect(() => {
+    socket.on("group created", (obj) => {
+      const userId = +localStorage.getItem("userId");
+      const userIDs = obj.userInfo.map((item) => item.id);
+      console.log(userIDs , userId)
+      if (userIDs.includes(userId)) {
+        setGroupItem([...groupItem, obj.groupInfo]);
+      } else {
+        console.log("not entered");
+      }
+    });
+
+    return () => {
+      socket.off("group created");
     };
   });
 
@@ -67,7 +77,6 @@ const Mainpage = () => {
       }
     );
     const arrayData = await response.data.chats;
-    console.log(arrayData);
     let concatedArray = [];
     if (localMessages.length != 0) {
       concatedArray = [...localMessages, ...arrayData];
@@ -96,13 +105,6 @@ const Mainpage = () => {
     setGroupItem(data);
   };
 
-  const logoutHandler = () => {
-    localStorage.clear();
-    navigate("/auth", { replace: true });
-  };
-  const newGroupHandler = () => {
-    setShow(true);
-  };
   const changeStateHandler = (message) => {
     const groupId = localStorage.getItem("groupId");
     const obj = { groupId, message, usersPresent };
@@ -123,7 +125,6 @@ const Mainpage = () => {
       );
       getChats(groupId);
       setGroupName(item.name);
-      setStateHAndler((prev) => !prev);
       setIsAdmin(response.data.isAdminUser);
       setUsersPresent(response.data.allUserIds);
     };
@@ -132,21 +133,62 @@ const Mainpage = () => {
 
     localStorage.setItem("groupId", groupId);
   };
+
+  const handleSocket = async (obj) => {
+    const groupId = obj.id;
+    const token = localStorage.getItem("token");
+    const response = await axios.get(
+      "http://localhost:5000/getUsers" + groupId,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+    const newObj = {
+      groupInfo: obj,
+      userInfo: response.data.allUserIds,
+    };
+    console.log(newObj);
+    socket.emit("group create",newObj);
+  };
+  const deleteChatHandler = (chatId) => {
+    console.log(chatId);
+  };
   const allListItems = messages.map((item, index) => {
     const inputString = item.name;
     const result = _.startCase(_.toLower(inputString));
     return (
       <ListGroup.Item key={index} variant={index % 2 === 0 ? "" : "secondary"}>
-        {result} : {item.message}
-        {item.fileUrl && (
-          <img
-            src={item.fileUrl}
-            width={200}
-            height={200}
-            alt="Uploaded"
-            style={{ float: "right" }}
-          />
-        )}
+        <Container>
+          <Row>
+            <Col lg={4}>
+              <p>
+                {result} : {item.message}
+              </p>
+            </Col>
+            <Col lg={4}></Col>
+            <Col lg={4}>
+              <CloseButton
+                onClick={() => deleteChatHandler(item.id)}
+                style={{ float: "right" }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {item.fileUrl && (
+                <img
+                  src={item.fileUrl}
+                  width={200}
+                  height={200}
+                  alt="Uploaded"
+                  style={{ float: "right" }}
+                />
+              )}
+            </Col>
+          </Row>
+        </Container>
       </ListGroup.Item>
     );
   });
@@ -160,31 +202,33 @@ const Mainpage = () => {
           listGroupHandler(item);
         }}
       >
-        {item.name}
+        <HiUserGroup /> {item.name}
       </ListGroup.Item>
     );
   });
   return (
     <Fragment>
-      <button onClick={logoutHandler}>Logout</button>
-      <button onClick={newGroupHandler}>Create new group</button>
-      <h1>Chat App</h1>
       <div className={classes.container}>
         <div className={classes.container1}>
-          <ListGroup variant="flush">
-            <ListGroup.Item
-              action
-              variant="info"
-              onClick={() => {
-                localStorage.removeItem("groupId");
-                setGroupName(null);
-                getChats();
-              }}
-            >
-              All Messages
-            </ListGroup.Item>
-            {allGroupListItems}
-          </ListGroup>
+          <Mainheaderelement handleSocket={handleSocket} />
+          <div className={classes.scrollableList}>
+            <ListGroup variant="flush">
+              <ListGroup.Item
+                action
+                variant="info"
+                onClick={() => {
+                  localStorage.removeItem("groupId");
+                  setUsersPresent([]);
+                  setGroupName(null);
+                  setIsAdmin(false);
+                  getChats();
+                }}
+              >
+                All Messages
+              </ListGroup.Item>
+              {allGroupListItems}
+            </ListGroup>
+          </div>
         </div>
         <div className={classes.listbox}>
           <Headelement
@@ -193,17 +237,10 @@ const Mainpage = () => {
             groupName={groupName}
           />
           <div className={classes.scrollableList}>
-            <ListGroup>{allListItems}</ListGroup>
+            {allListItems.length > 0 && <ListGroup>{allListItems}</ListGroup>}
+            {allListItems.length === 0 && <p>No messages are present</p>}
           </div>
         </div>
-        {show && (
-          <Invitemodal
-            show={show}
-            handleClose={() => {
-              setShow(false);
-            }}
-          />
-        )}
       </div>
       <footer className={classes.footer}>
         <Inputbox sendToParent={changeStateHandler} />

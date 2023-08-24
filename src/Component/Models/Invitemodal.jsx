@@ -9,6 +9,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 const Invitemodal = (props) => {
   const [users, setUsers] = useState([]);
@@ -39,18 +40,23 @@ const Invitemodal = (props) => {
       );
     }
   };
-  const submitHandler = () => {
+  const submitHandler = async (event) => {
+    event.preventDefault();
     const token = localStorage.getItem("token");
     const enteredGroupName = groupName.current.value;
     const obj = {
       name: enteredGroupName,
       users: selectedCheckboxesRef.current,
     };
-    console.log(obj);
-    axios.post("http://localhost:5000/createGroup", obj, {
-      headers: { Authorization: token },
-    });
-    // console.log("Selected Checkboxes:", selectedCheckboxesRef.current);
+    const response = await axios.post(
+      "http://localhost:5000/createGroup",
+      obj,
+      {
+        headers: { Authorization: token },
+      }
+    );
+    props.handleSocket(response.data.data);
+    props.handleClose();
   };
   const rows = users.map((item) => {
     return (
@@ -65,11 +71,6 @@ const Invitemodal = (props) => {
       </Row>
     );
   });
-  // const submitHandler =(event)=>{
-  //   event.preventDefault();
-  //   const enteredGroupName = groupName.current.value;
-  //   console.log(enteredGroupName)
-  // }
   return (
     <Fragment>
       <Modal show={props.show} onHide={props.handleClose} animation={false}>
@@ -79,7 +80,6 @@ const Invitemodal = (props) => {
         <Form onSubmit={submitHandler}>
           <Modal.Body>
             <Container>
-              {/* <Form onSubmit={submitHandler}> */}
               <InputGroup className="mb-3">
                 <InputGroup.Text id="basic-addon1">Group Name</InputGroup.Text>
                 <Form.Control
@@ -88,9 +88,6 @@ const Invitemodal = (props) => {
                   required
                 />
               </InputGroup>
-
-              {/* </Form> */}
-
               {rows}
             </Container>
           </Modal.Body>
@@ -109,3 +106,9 @@ const Invitemodal = (props) => {
 };
 
 export default Invitemodal;
+Invitemodal.propTypes = {
+  groupName: PropTypes.string,
+  handleClose: PropTypes.func,
+  handleSocket: PropTypes.func,
+  show: PropTypes.bool,
+};
