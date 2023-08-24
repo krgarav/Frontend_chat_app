@@ -58,7 +58,6 @@ const Mainpage = () => {
   }
   const getChats = async (grpId) => {
     let groupId = grpId || null;
-    console.log(groupId);
     const response = await axios.get(
       `http://localhost:5000/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
       {
@@ -68,6 +67,7 @@ const Mainpage = () => {
       }
     );
     const arrayData = await response.data.chats;
+    console.log(arrayData);
     let concatedArray = [];
     if (localMessages.length != 0) {
       concatedArray = [...localMessages, ...arrayData];
@@ -138,6 +138,15 @@ const Mainpage = () => {
     return (
       <ListGroup.Item key={index} variant={index % 2 === 0 ? "" : "secondary"}>
         {result} : {item.message}
+        {item.fileUrl && (
+          <img
+            src={item.fileUrl}
+            width={200}
+            height={200}
+            alt="Uploaded"
+            style={{ float: "right" }}
+          />
+        )}
       </ListGroup.Item>
     );
   });
@@ -183,7 +192,9 @@ const Mainpage = () => {
             state={isAdmin}
             groupName={groupName}
           />
-          <ListGroup>{allListItems}</ListGroup>
+          <div className={classes.scrollableList}>
+            <ListGroup>{allListItems}</ListGroup>
+          </div>
         </div>
         {show && (
           <Invitemodal
