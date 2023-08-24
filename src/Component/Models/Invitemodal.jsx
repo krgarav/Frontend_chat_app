@@ -18,7 +18,7 @@ const Invitemodal = (props) => {
   useEffect(() => {
     const getUser = async () => {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:5000/user/getUser", {
+      const response = await axios.get("http://43.205.148.73:5000/user/getUser", {
         headers: { Authorization: token },
       });
       const allUsers = response.data.user;
@@ -49,7 +49,7 @@ const Invitemodal = (props) => {
       users: selectedCheckboxesRef.current,
     };
     const response = await axios.post(
-      "http://localhost:5000/createGroup",
+      "http://43.205.148.73:5000/createGroup",
       obj,
       {
         headers: { Authorization: token },

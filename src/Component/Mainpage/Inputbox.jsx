@@ -21,14 +21,14 @@ const Inputbox = (props) => {
             headers: { "content-type": "multipart/form-data" },
           };
           const uploadFile = await axios.post(
-            "http://localhost:5000/fileupload",
+            "http://43.205.148.73:5000/fileupload",
             formData,
             config
           );
           url = await uploadFile.data.data;
         }
         const response = await axios.post(
-          "http://localhost:5000/add-message",
+          "http://43.205.148.73:5000/add-message",
           { message: enteredMessage, fileUrl: url, groupId: groupId },
           {
             headers: {

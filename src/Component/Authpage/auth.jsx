@@ -25,7 +25,7 @@ const Auth = () => {
           phone: enteredPhone.current.value,
           password: enteredPassword.current.value,
         };
-        await axios.post("http://localhost:5000/user/signup", obj);
+        await axios.post("http://43.205.148.73:5000/user/signup", obj);
         alert("Signed up Successfully");
         setState(true);
       } catch (err) {
@@ -45,7 +45,7 @@ const Auth = () => {
           password: enteredPassword.current.value,
         };
         const response = await axios.post(
-          "http://localhost:5000/user/login",
+          "http://43.205.148.73:5000/user/login",
           obj
         );
         localStorage.setItem("token", response.data.token);

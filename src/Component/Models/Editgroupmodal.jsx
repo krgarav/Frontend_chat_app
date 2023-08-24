@@ -67,7 +67,7 @@ const Editgroupmodal = (props) => {
       users: selectedCheckboxesRef.current,
       isAdmin: selectedAdminCheckboxesRef.current,
     };
-    await axios.post("http://localhost:5000/updateGroupInfo", obj);
+    await axios.post("http://43.205.148.73:5000/updateGroupInfo", obj);
     alert("updated details")
     props.handleClose()
   };
