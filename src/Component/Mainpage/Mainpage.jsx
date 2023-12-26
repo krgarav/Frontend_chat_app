@@ -9,7 +9,9 @@ import Headelement from "../Headelement/Headelement";
 import Mainheaderelement from "../Headelement/Mainheadelement";
 import { HiUserGroup } from "react-icons/hi";
 import CloseButton from "react-bootstrap/CloseButton";
-const ENDPOINT = "http://43.205.148.73:5000";
+const PORT = import.meta.env.VITE_REACT_PORT;
+
+const ENDPOINT = `${PORT}`;
 var socket;
 const Mainpage = () => {
   const [messages, setMessages] = useState([]);
@@ -69,7 +71,7 @@ const Mainpage = () => {
   const getChats = async (grpId) => {
     let groupId = grpId || null;
     const response = await axios.get(
-      `http://43.205.148.73:5000/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
+      `${PORT}/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
       {
         headers: {
           Authorization: token,
@@ -96,7 +98,7 @@ const Mainpage = () => {
   };
   const getGroups = async () => {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://43.205.148.73:5000/getGroup", {
+    const response = await axios.get(`${PORT}/getGroup`, {
       headers: {
         Authorization: token,
       },
@@ -116,7 +118,7 @@ const Mainpage = () => {
     const token = localStorage.getItem("token");
     const getReq = async () => {
       const response = await axios.get(
-        "http://43.205.148.73:5000/getUsers" + groupId,
+        `${PORT}/getUsers` + groupId,
         {
           headers: {
             Authorization: token,
@@ -138,7 +140,7 @@ const Mainpage = () => {
     const groupId = obj.id;
     const token = localStorage.getItem("token");
     const response = await axios.get(
-      "http://43.205.148.73:5000/getUsers" + groupId,
+      `${PORT}/getUsers` + groupId,
       {
         headers: {
           Authorization: token,

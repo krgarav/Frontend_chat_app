@@ -3,6 +3,7 @@ import classes from "./Inputbox.module.css";
 import PropTypes from 'prop-types';
 import axios from "axios";
 const Inputbox = (props) => {
+  const PORT = import.meta.env.VITE_REACT_PORT;
   const [slectedFile, setSelectedFile] = useState(null);
   const chatRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -21,14 +22,14 @@ const Inputbox = (props) => {
             headers: { "content-type": "multipart/form-data" },
           };
           const uploadFile = await axios.post(
-            "http://43.205.148.73:5000/fileupload",
+            `${PORT}/fileupload`,
             formData,
             config
           );
           url = await uploadFile.data.data;
         }
         const response = await axios.post(
-          "http://43.205.148.73:5000/add-message",
+          `${PORT}/add-message`,
           { message: enteredMessage, fileUrl: url, groupId: groupId },
           {
             headers: {

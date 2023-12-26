@@ -6,6 +6,8 @@ import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
 const Auth = () => {
+  const PORT = import.meta.env.VITE_REACT_PORT;
+console.log(PORT)
   const [state, setState] = useState(true);
   const [show, setShow] = useState(true);
   const [resolve, setResolve] = useState(false);
@@ -25,7 +27,7 @@ const Auth = () => {
           phone: enteredPhone.current.value,
           password: enteredPassword.current.value,
         };
-        await axios.post("http://43.205.148.73:5000/user/signup", obj);
+        await axios.post(`${PORT}/user/signup`, obj);
         alert("Signed up Successfully");
         setState(true);
       } catch (err) {
@@ -45,7 +47,7 @@ const Auth = () => {
           password: enteredPassword.current.value,
         };
         const response = await axios.post(
-          "http://43.205.148.73:5000/user/login",
+          `${PORT}/user/login`,
           obj
         );
         localStorage.setItem("token", response.data.token);

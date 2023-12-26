@@ -12,13 +12,14 @@ import {
 import PropTypes from "prop-types";
 
 const Invitemodal = (props) => {
+  const PORT = import.meta.env.VITE_REACT_PORT;
   const [users, setUsers] = useState([]);
   const selectedCheckboxesRef = useRef([]);
   const groupName = useRef();
   useEffect(() => {
     const getUser = async () => {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://43.205.148.73:5000/user/getUser", {
+      const response = await axios.get(`${PORT}/user/getUser`, {
         headers: { Authorization: token },
       });
       const allUsers = response.data.user;
@@ -49,7 +50,7 @@ const Invitemodal = (props) => {
       users: selectedCheckboxesRef.current,
     };
     const response = await axios.post(
-      "http://43.205.148.73:5000/createGroup",
+      `${PORT}/createGroup`,
       obj,
       {
         headers: { Authorization: token },
