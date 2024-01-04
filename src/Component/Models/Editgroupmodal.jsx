@@ -134,6 +134,9 @@ const Editgroupmodal = (props) => {
             {/* <Button variant="secondary" onClick={props.handleClose}>
               Close
             </Button> */}
+            <Button variant="success" >
+              Add More Participants
+            </Button>
             <Button variant="primary" type="submit">
               Edit Group
             </Button>

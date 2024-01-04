@@ -1,9 +1,26 @@
 .box1{
-    width: 100%;
+    /* width: 100%; */
     background-color: rgb(0, 65, 139);
-    text-align: center;
+    /* text-align: center; */
     padding: 10px;
+    /* display: flex; */
+    /* flex-direction: row; */
 }
 .box1 input{
-    width: 60%;
+    width: 100%;
+    padding: 5px;
+}
+.inputtext{
+    display: flex;
+    flex-direction: row;
+}
+.sendbutton{
+    margin-left: 10px;
+}
+.listitem{
+    width: 20%;
+}
+.crossicon{
+    color: white;
+    transition: transform 0.3s
 }

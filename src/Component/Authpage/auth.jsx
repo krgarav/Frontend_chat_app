@@ -5,9 +5,9 @@ import axios from "axios";
 import { VscEyeClosed, VscEye } from "react-icons/vsc";
 import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router";
+import { useToast } from "../../Store/toastcontext";
 const Auth = () => {
   const PORT = import.meta.env.VITE_REACT_PORT;
-console.log(PORT)
   const [state, setState] = useState(true);
   const [show, setShow] = useState(true);
   const [resolve, setResolve] = useState(false);
@@ -16,6 +16,7 @@ console.log(PORT)
   const enteredPassword = useRef();
   const enteredPhone = useRef();
   const navigate = useNavigate();
+  const { showSuccessToast } = useToast();
   const submitHandler = (event) => {
     event.preventDefault();
     const postSignupdata = async () => {
@@ -53,7 +54,7 @@ console.log(PORT)
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userId", response.data.userId);
         localStorage.setItem("userName", response.data.userName);
-        alert("Logged in Successfully");
+        showSuccessToast("Logged in successfully");
         navigate("/chat-app");
       } catch (err) {
         if (err.response) {
