@@ -115,3 +115,18 @@
 .scrollableList::-webkit-scrollbar-track {
   background-color: transparent;
 }
+
+/* Target phones with a maximum width of 480px */
+@media screen and (max-width: 480px) {
+  /* Styles for phones */
+  .container1 {
+    width: 100vw;
+    background-color: rgba(240, 128, 128, 0.655);
+  }
+  .listbox {
+    display: none;
+  }
+  .scrollableList{
+    background-color: transparent;
+  }
+}

@@ -29,7 +29,7 @@ const Mainpage = () => {
   useEffect(() => {
     const handleCtrlA = (event) => {
       // Check if Ctrl key is pressed while 'a' is pressed
-      if (event.ctrlKey && event.key === 'a') {
+      if (event.ctrlKey && event.key === "a") {
         // Prevent the default behavior (text selection)
         event.preventDefault();
       }
@@ -53,7 +53,6 @@ const Mainpage = () => {
 
     // Add event listener to the entire component
     document.addEventListener("copy", handleCopy);
-
 
     // Clean up the event listener when the component unmounts
     return () => {
@@ -247,7 +246,7 @@ const Mainpage = () => {
           </Row>
           <Row>
             <Col lg={12}>
-              <p style={{userSelect:"text"}}>{item.message}</p>
+              <p style={{ userSelect: "text" }}>{item.message}</p>
             </Col>
           </Row>
           <Row>
@@ -305,7 +304,9 @@ const Mainpage = () => {
         <div className={classes.container1}>
           <Mainheaderelement handleSocket={handleSocket} />
           <div className={classes.scrollableList}>
-            <ListGroup variant="flush">
+            <ListGroup
+              variant="flush"
+            >
               <ListGroup.Item
                 action
                 variant="light"
@@ -320,7 +321,6 @@ const Mainpage = () => {
                 All Messages
               </ListGroup.Item>
               {allGroupListItems}
-              {/* {allmembers} */}
             </ListGroup>
           </div>
         </div>
