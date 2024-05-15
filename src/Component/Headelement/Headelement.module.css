@@ -1,0 +1,20 @@
+.listToggler {
+  background-color: rgba(250, 249, 249, 0.819);
+  overflow-y: auto;
+  border: none;
+  z-index: 4;
+  height: 100vh;
+  position: absolute;
+  width: 60vw;
+  display: block;
+  transition: right 0.8s linear;
+}
+.toggleBar {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .toggleBar {
+    display: block;
+  }
+}

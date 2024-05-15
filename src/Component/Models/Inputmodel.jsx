@@ -52,7 +52,7 @@ const Inputmodal = (props) => {
         alert(err);
       }
     };
-    F;
+   
     postMessage();
   };
   const handleFileChange = (event) => {

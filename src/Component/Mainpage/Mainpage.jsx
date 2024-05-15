@@ -24,6 +24,7 @@ const Mainpage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [imgurl, setImgUrl] = useState("");
   const [imageShow, setImageShow] = useState(false);
+  const [item, setItem] = useState({});
 
   const listRef = useRef();
   useEffect(() => {
@@ -65,10 +66,11 @@ const Mainpage = () => {
     getChats();
     getGroups();
     getMembers();
+    console.log("called");
     return () => {
       socket.disconnect(); // Close the socket connection
     };
-  }, []);
+  }, [item]);
   useEffect(() => {
     // Scroll to the last list item when messages change
     if (listRef.current) {
@@ -116,8 +118,9 @@ const Mainpage = () => {
   }
   const getChats = async (grpId) => {
     let groupId = grpId || null;
+    const receiverId = localStorage.getItem("receiverId");
     const response = await axios.get(
-      `${PORT}/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}`,
+      `${PORT}/get-message?lastMessageId=${lastMessageId}&groupId=${groupId}&receiverId=${receiverId}`,
       {
         headers: {
           Authorization: token,
@@ -211,7 +214,7 @@ const Mainpage = () => {
     const msgClass = state ? classes.messagebox : classes.messagebox2;
     const styles = !state
       ? { width: "max-content", marginRight: "" }
-      : { width: "50%", float: "right" };
+      : { width: "40%", float: "right" };
     const timestamp = new Date(item.createdAt);
     const timeOnly = timestamp.toISOString().substr(11, 5);
     const senderClass = !state ? classes.senderName : classes.receiverName;
@@ -240,6 +243,11 @@ const Mainpage = () => {
                   height={200}
                   alt="Uploaded"
                   onClick={() => imgHandler(item)}
+                  style={{
+                    objectFit: "contain",
+                    maxWidth: "100%", // Ensure the image doesn't exceed the width of its container
+                    height: "auto", // Allow the height to adjust accordingly to maintain aspect ratio
+                  }}
                 />
               )}
             </Col>
@@ -258,7 +266,11 @@ const Mainpage = () => {
   });
   const oneGroupHandler = async (item) => {
     setSelectedItem(item.id);
-    const groupId = localStorage.getItem("groupId");
+    setItem(item);
+    console.log(item);
+    setGroupName(item.name);
+    localStorage.setItem("receiverId", item.id);
+    localStorage.removeItem("groupId");
   };
   const allmembers = Allusers.map((item) => {
     return (
@@ -301,13 +313,11 @@ const Mainpage = () => {
         show={imageShow}
       />
       <div className={classes.container}>
-        <div className={classes.container1}>
+        <div id="chatContainer" className={classes.container1}>
           <Mainheaderelement handleSocket={handleSocket} />
           <div className={classes.scrollableList}>
-            <ListGroup
-              variant="flush"
-            >
-              <ListGroup.Item
+            <ListGroup variant="flush">
+              {/* <ListGroup.Item
                 action
                 variant="light"
                 onClick={() => {
@@ -319,12 +329,14 @@ const Mainpage = () => {
                 }}
               >
                 All Messages
-              </ListGroup.Item>
+              </ListGroup.Item> */}
               {allGroupListItems}
+              {allmembers}
             </ListGroup>
           </div>
         </div>
-        <div className={classes.listbox}>
+        {/* Message Box */}
+        <div id="listBox" className={classes.listbox}>
           <Headelement
             userArray={usersPresent}
             state={isAdmin}

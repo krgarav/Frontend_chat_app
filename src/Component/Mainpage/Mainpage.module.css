@@ -93,7 +93,7 @@
   background-repeat: no-repeat;
 }
 .scrollableList {
-  max-height: 470px;
+  max-height: 85dvh;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
@@ -120,13 +120,28 @@
 @media screen and (max-width: 480px) {
   /* Styles for phones */
   .container1 {
-    width: 100vw;
-    background-color: rgba(240, 128, 128, 0.655);
-  }
-  .listbox {
+    background-color: rgba(250, 249, 249, 0.819);
+    overflow-y: auto;
+    border: none;
+    z-index: 2;
+    height: 100vh;
+    position: absolute;
     display: none;
   }
-  .scrollableList{
+  .listbox {
+    z-index: 1;
+    width: 100vw;
+  }
+  .scrollableList {
     background-color: transparent;
+  }
+  .footer {
+    width: 100vw;
+  }
+  .messagebox {
+    width: 20vw;
+  }
+  .messagebox2 {
+    width: 20vw;
   }
 }

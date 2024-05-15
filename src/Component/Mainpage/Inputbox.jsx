@@ -22,10 +22,16 @@ const Inputbox = (props) => {
     const postMessage = async () => {
       try {
         const groupId = localStorage.getItem("groupId") || null;
+        const receiverId = localStorage.getItem("receiverId") || null;
         let url = null;
         const response = await axios.post(
           `${PORT}/add-message`,
-          { message: enteredMessage, fileUrl: url, groupId: groupId },
+          {
+            message: enteredMessage,
+            fileUrl: url,
+            groupId: groupId,
+            receiverId: receiverId,
+          },
           {
             headers: {
               Authorization: token,
@@ -78,16 +84,25 @@ const Inputbox = (props) => {
       )}
       <div className={classes.box1}>
         <Row>
-          <Col lg={1} style={{ width: "1.5%" }}>
+          <Col
+            lg={1}
+            md={1}
+            sm={1}
+            xs={2}
+            // style={{ width: "2%" }}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
             <FaPlus
               style={{
                 transform: isRotated ? "rotate(135deg)" : "rotate(0deg)",
+                fontSize: "1.7rem",
+                alignSelf: "center",
               }}
               className={classes.crossicon}
               onClick={handleClick}
             />
           </Col>
-          <Col lg={11}>
+          <Col lg={11} md={11} sm={11} xs={10}>
             <form onSubmit={sendHandler} className={classes.inputtext}>
               <input
                 placeholder="Enter Message"
@@ -102,32 +117,6 @@ const Inputbox = (props) => {
             </form>
           </Col>
         </Row>
-
-        {/* <FaPlus
-          style={{
-            color: "white",
-            transition: "transform 0.3s", // Add a transition for smooth animation
-            transform: isRotated ? "rotate(45deg)" : "rotate(0deg)",
-          }}
-          onClick={handleClick}
-        /> */}
-        {/* <form onSubmit={sendHandler}>
-          <input
-            placeholder="Enter Message"
-            type="text"
-            ref={chatRef}
-            required
-          />
-
-          <button type="submit">Send</button>
-          <input
-            type="file"
-            id="fileInput"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            style={{ color: "white" }}
-          />
-        </form> */}
       </div>
     </Fragment>
   );
