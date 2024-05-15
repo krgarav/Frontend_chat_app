@@ -116,6 +116,15 @@
   background-color: transparent;
 }
 
+.blurDiv {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  content: "";
+  z-index: 1;
+  background-color: rgba(34, 33, 33, 0.659);
+  /* pointer-events: none; */
+}
 /* Target phones with a maximum width of 480px */
 @media screen and (max-width: 480px) {
   /* Styles for phones */

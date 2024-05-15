@@ -167,26 +167,6 @@ const Mainpage = () => {
     const obj = { groupId, message, usersPresent };
     socket.emit("new message", obj);
   };
-  const listGroupHandler = (item) => {
-    const groupId = item.id;
-    localStorage.setItem("groupId", groupId);
-    const token = localStorage.getItem("token");
-    const getReq = async () => {
-      const response = await axios.get(`${PORT}/getUsers` + groupId, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      getChats(groupId);
-      setGroupName(item.name);
-      setIsAdmin(response.data.isAdminUser);
-      setUsersPresent(response.data.allUserIds);
-    };
-
-    getReq();
-    setSelectedItem(item.id);
-    localStorage.setItem("groupId", groupId);
-  };
 
   const handleSocket = async (obj) => {
     const groupId = obj.id;
@@ -264,20 +244,21 @@ const Mainpage = () => {
       </ListGroup.Item>
     );
   });
-  const oneGroupHandler = async (item) => {
-    setSelectedItem(item.id);
-    setItem(item);
-    console.log(item);
-    setGroupName(item.name);
-    localStorage.setItem("receiverId", item.id);
-    localStorage.removeItem("groupId");
-  };
+
   const allmembers = Allusers.map((item) => {
+    const oneGroupHandler = async (item) => {
+      setSelectedItem(item.id);
+      setItem(item);
+      setGroupName(item.name);
+      localStorage.setItem("receiverId", item.id);
+      localStorage.removeItem("groupId");
+    };
+
     return (
       <ListGroup.Item
         key={item.id}
         action
-        variant="info"
+        variant={selectedItem === item.id ? "dark" : "light"}
         onClick={() => {
           oneGroupHandler(item);
         }}
@@ -286,14 +267,35 @@ const Mainpage = () => {
       </ListGroup.Item>
     );
   });
+
   const allGroupListItems = groupItem.map((item) => {
-    const classState = selectedItem === item.id;
+    const listGroupHandler = (item) => {
+      const groupId = item.id;
+      localStorage.setItem("groupId", groupId);
+      const token = localStorage.getItem("token");
+      const getReq = async () => {
+        const response = await axios.get(`${PORT}/getUsers` + groupId, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        getChats(groupId);
+        setGroupName(item.name);
+        setIsAdmin(response.data.isAdminUser);
+        setUsersPresent(response.data.allUserIds);
+      };
+
+      getReq();
+      setSelectedItem(item.id);
+      localStorage.setItem("groupId", groupId);
+    };
 
     return (
       <ListGroup.Item
         key={item.id}
+        action
         variant={selectedItem === item.id ? "dark" : "light"}
-        className={classState}
+        // className={classState}
         onClick={() => {
           listGroupHandler(item);
         }}
@@ -304,6 +306,10 @@ const Mainpage = () => {
   });
   const handleImgModal = () => {
     setImageShow(!imageShow);
+  };
+  const blurHandler = () => {
+    const blurToggler = document.getElementById("blurToggler");
+    blurToggler.click();
   };
   return (
     <Fragment>
@@ -334,6 +340,9 @@ const Mainpage = () => {
               {allmembers}
             </ListGroup>
           </div>
+        </div>
+        <div id="blur" onClick={blurHandler} className={classes.blurDiv}>
+          h1
         </div>
         {/* Message Box */}
         <div id="listBox" className={classes.listbox}>

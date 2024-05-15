@@ -12,6 +12,9 @@
 .toggleBar {
   display: none;
 }
+.blurToggler{
+    z-index: 2;
+}
 
 @media screen and (max-width: 480px) {
   .toggleBar {

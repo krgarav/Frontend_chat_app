@@ -23,21 +23,15 @@ const Headelement = (props) => {
     const chatContainer = document.getElementById("chatContainer");
 
     chatContainer.classList.toggle(classes.listToggler);
-    // if (listBox.style.display === "none") {
-    //   listBox.style.display = "block";
-    //   listBox.style.width = "60dvw";
-    //   // chatContainer.style.display = "none";
-    //   listBox.classList.add(classes.listToggler);
-    // } else {
-    //   // listBox.style.display = "none";
-    //   // chatContainer.style.display = "block";
-    // }
+    const blurDiv = document.getElementById("blur");
+    blurDiv.classList.toggle(classes.blurToggler);
   };
   return (
     <Fragment>
       <Navbar className="bg-body-tertiary">
         <Container>
           <span
+            id="blurToggler"
             onClick={toggleHandler}
             className={classes.toggleBar}
             style={{
