@@ -11,7 +11,6 @@
 .inputtext {
   display: flex;
   flex-direction: row;
- 
 }
 .sendbutton {
   margin-left: 10px;
@@ -24,4 +23,12 @@
 .crossicon {
   color: white;
   transition: transform 0.3s;
+}
+
+@media screen and (max-width: 480px) {
+  .box1 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
 }

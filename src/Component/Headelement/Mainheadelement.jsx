@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Container, Navbar, NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router";
 import Invitemodal from "../Models/Invitemodal";
@@ -8,14 +8,37 @@ import classes from "./Mainheadelement.module.css";
 
 const Mainheaderelement = (props) => {
   const [show, setShow] = useState(false);
+  const [state, setState] = useState(false);
   const navigate = useNavigate();
   const userName = localStorage.getItem("userName");
+  useEffect(() => {
+    const element = document.querySelector(
+      '[aria-labelledby="basic-nav-dropdown"]'
+    );
+    const width = window.innerWidth;
+
+    if (element && width <= 480) {
+      element.style.position = "absolute";
+      element.style.left = "-150px";
+      element.style.width = "10vw";
+    } else {
+      if (element) {
+        element.style.position = "";
+        element.style.left = "";
+      }
+    }
+
+    console.log(element);
+  }, [state]);
   const logoutHandler = () => {
     localStorage.clear();
     navigate("/auth", { replace: true });
   };
   const newGroupHandler = () => {
     setShow(true);
+  };
+  const dropdownHandler = () => {
+    setState((prev) => !prev);
   };
   return (
     <Fragment>
@@ -28,16 +51,14 @@ const Mainheaderelement = (props) => {
             title=""
             id="basic-nav-dropdown"
             drop="down"
-            alignRight
             className={classes.dropdown}
+            onClick={dropdownHandler}
           >
-            <NavDropdown.Item  onClick={newGroupHandler}>
+            <NavDropdown.Item onClick={newGroupHandler}>
               Create Group
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item  onClick={logoutHandler}>
-              Logout
-            </NavDropdown.Item>
+            <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
           </NavDropdown>
         </Container>
       </Navbar>

@@ -123,6 +123,7 @@
   content: "";
   z-index: 1;
   background-color: rgba(34, 33, 33, 0.659);
+  display: none;
   /* pointer-events: none; */
 }
 /* Target phones with a maximum width of 480px */
@@ -152,5 +153,8 @@
   }
   .messagebox2 {
     width: 20vw;
+  }
+  .blurDiv {
+    display: block;
   }
 }
